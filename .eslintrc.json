@@ -1,0 +1,18 @@
+{
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "SimpleScrollbar": true
+  },
+  "extends": "standard",
+  "rules": {
+    "semi": [2, "always"],
+    "space-before-blocks": 2,
+    "space-before-function-paren": [2, "never"],
+    "func-names": [0, "never"],
+    "no-underscore-dangle": [0],
+    "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "no-param-reassign": [0]
+  }
+}
