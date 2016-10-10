@@ -24,51 +24,48 @@ module.exports = {
 
   /**
   * Make ajax request
-  * @param {Object} opts
-  *  @param {Object} [opts.ctx=this]
+  *  @param {Object} opts
   *  @param {string} [opts.method=GET]
   *  @param {string}isMobile opts.url
   *  @param {Function} [opts.success=Function.prototype]
   *  @param {Function} [opts.error=Function.prototype]
-  *  @return {XMLHttpRequest}
+  *  @return {Promise.<>}
   */
   request: function(opts) {
-    var request = new XMLHttpRequest();
-    var method = opts.method || 'GET';
-    var ctx = opts.ctx;
-    var url = opts.url;
+    return new Promise(function(resolve, reject) {
+      var request = new XMLHttpRequest();
+      var method = opts.method || 'GET';
+      var url = opts.url;
 
-    if (opts.data && method === 'GET') {
-      url += '?';
-      Object.keys(opts.data).forEach(function(key) {
-        url += key + '=' + opts.data[key] + '&';
-      }, this);
-    }
-
-    request.open(method, url, true);
-
-    request.onload = function() {
-      var json;
-
-      if (request.status >= 200 && request.status < 400) {
-        try {
-          json = JSON.parse(request.responseText);
-        } catch (e) {}
-
-        if (opts.success) {
-          opts.success.apply(ctx || this, [json || request.responseText, request]);
-        }
-      } else {
-        opts.error.apply(ctx || this, [request]);
+      if (opts.data && method === 'GET') {
+        url += '?';
+        Object.keys(opts.data).forEach(function(key, i, arr) {
+          url += key + '=' + opts.data[key];
+          if (i !== arr.length - 1) {
+            url += '&';
+          }
+        }, this);
       }
-    };
 
-    opts.error = opts.error || Function.prototype;
-    request.onerror = opts.error;
+      request.open(method, url, true);
 
-    request.send();
+      request.onload = function() {
+        var json;
 
-    return request;
+        if (request.status >= 200 && request.status < 400) {
+          try {
+            json = JSON.parse(request.responseText);
+          } catch (e) {}
+
+          resolve(json || request.responseText, request);
+        } else {
+          reject(request);
+        }
+      };
+
+      request.onerror = reject;
+      request.send();
+    });
   },
 
   /**
