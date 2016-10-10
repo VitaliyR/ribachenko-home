@@ -1,0 +1,16 @@
+.buttons {
+   background: #262626;
+   list-style: none;
+   padding: 0;
+   border-top: 1px solid #476A5D;
+
+   li {
+      display: inline-block;
+      color: #fff;
+      cursor: pointer;
+
+      &.selected {
+         background: #6AA18B;
+      }
+   }
+}

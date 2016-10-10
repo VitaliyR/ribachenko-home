@@ -2,43 +2,48 @@ var Base = require('../core/Base');
 var utils = require('../lib/utils');
 
 module.exports = Base.extend({
+  template: require('templates/components/weather'),
   url: 'http://api.worldweatheronline.com/premium/v1/weather.ashx',
 
-  constructor: function(container, key, store) {
+  constructor: function(container, config, store) {
     this.container = container;
-    this.key = key;
+    this.config = config;
     this.store = store;
   },
 
   getWeather: function() {
+    var self = this;
     return utils.request({
       url: this.url,
       data: {
-        key: this.key,
+        key: this.config.api_key,
         format: 'json',
         q: 'Vinnitsa,Ukraine',
         num_of_days: 1,
         mca: 'no'
       }
+    }).then(function(response) {
+      var data = response.data;
+      self.store.set('last_executed', Date.now());
+      self.store.set('weather', data);
     });
   },
 
   displayWeather: function(response) {
     var self = this;
+    var lastExecuted = this.store.get('last_executed');
+    var timePassed = lastExecuted ? Date.now() - lastExecuted : Infinity;
+    var cachedWeather = this.store.get('weather');
 
-    this.getWeather().then(function(response) {
-      var data = response.data;
-      var now = data.current_condition[0];
-      self.container.innerHTML = now.temp_C;
+    var data = timePassed < this.config.freq
+      ? Promise.resolve(cachedWeather)
+      : this.getWeather();
 
-      // data.current_condition[0]
-      // data.current_condition.temp_C
-      // data.current_condition.FeelsLikeC
-      // data.current_condition.windspeedKmph
-      // data.current_condition.weatherIconUrl[0]
-      //
-      // // data.weather.forEach
-      // data.weather
+    data.then(function(weather) {
+      var scope = {
+
+      };
+      self.container.innerHTML = self.template(weather);
     });
   }
 });

@@ -12,7 +12,8 @@
     "build": "brunch build --production"
   },
   "dependencies": {
-    "lodash": "^4.16.4"
+    "lodash": "^4.16.4",
+    "moment": "^2.15.1"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2.0.0",
@@ -24,7 +25,9 @@
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-standard": "^2.0.1",
+    "handlebars-brunch": "^2.0.1",
     "javascript-brunch": "^2.0.0",
+    "sass-brunch": "^2.7.0",
     "stylelint": "^7.4.1",
     "stylelint-config-standard": "^13.0.2",
     "uglify-js-brunch": "^2.0.0"

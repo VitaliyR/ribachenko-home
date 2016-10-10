@@ -3,22 +3,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=3, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
   <title>Smart Home</title>
+  <link rel="stylesheet" href="/app.css"/>
   <script src="/app.js"></script>
   <script>require('initialize');</script>
 </head>
 <body>
    <div class="container">
-      <div class="page" data-page="Overview">
-         09 September 2016
-         23:46
-         <div class="weather"></div>
+      <div class="page overview-page" data-page="Overview">
+         <div class="time-container"></div>
+         <div class="weather-container"></div>
       </div>
       <div class="page" data-page="Lights">
 
       </div>
    </div>
    <ul class="buttons">
-      <li>Overview</li>
+      <li class="selected">Overview</li>
       <li>Lights</li>
    </ul>
 </body>
