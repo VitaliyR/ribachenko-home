@@ -26,6 +26,7 @@ module.exports = Base.extend({
       var data = response.data;
       self.store.set('last_executed', Date.now());
       self.store.set('weather', data);
+      return data;
     });
   },
 

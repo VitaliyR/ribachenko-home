@@ -5,8 +5,16 @@ module.exports = {
     templates: {joinTo: 'app.js'}
   },
   plugins: {
-    sass: {
-      mode: 'native'
+    postcss: {
+      processors: [
+        require('postcss-partial-import')(),
+        require('postcss-nested')(),
+        require('stylelint')()
+      ]
+    }
+  },
+  overrides: {
+    production: {
     }
   }
 };

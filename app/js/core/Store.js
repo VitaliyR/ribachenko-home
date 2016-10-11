@@ -101,7 +101,7 @@ var Store = module.exports = Base.extend({
   substore: function(namespace, initialData) {
     var data = this.data[namespace];
 
-    if (!data._type || data._type !== 'substore') {
+    if (!data || !data._type || data._type !== 'substore') {
       data = this.data[namespace] = new SubStore(namespace, this, initialData);
     }
 
