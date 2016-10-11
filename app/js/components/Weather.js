@@ -31,20 +31,23 @@ module.exports = Base.extend({
   },
 
   displayWeather: function(response) {
-    var self = this;
     var lastExecuted = this.store.get('last_executed');
     var timePassed = lastExecuted ? Date.now() - lastExecuted : Infinity;
     var cachedWeather = this.store.get('weather');
+    var needUpdate = timePassed > this.config.freq;
 
-    var data = timePassed < this.config.freq
-      ? Promise.resolve(cachedWeather)
-      : this.getWeather();
+    var runner = Promise
+      .resolve(cachedWeather)
+      .then(this._renderWeather.bind(this));
 
-    data.then(function(weather) {
-      var scope = {
+    needUpdate && runner
+      .then(this.getWeather.bind(this))
+      .then(this._renderWeather.bind(this));
+  },
 
-      };
-      self.container.innerHTML = self.template(weather);
-    });
+  _renderWeather: function(weather) {
+    var scope = {
+    };
+    this.container.innerHTML = this.template(weather);
   }
 });

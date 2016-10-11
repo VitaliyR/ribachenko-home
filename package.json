@@ -13,6 +13,7 @@
     "postinstall": "npm run build"
   },
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "lodash": "^4.16.4",
     "moment": "^2.15.1"
   },
@@ -30,8 +31,10 @@
     "handlebars-brunch": "^2.0.1",
     "javascript-brunch": "^2.0.0",
     "postcss-brunch": "^2.0.3",
+    "postcss-inline-svg": "^2.1.2",
     "postcss-nested": "^1.0.0",
     "postcss-partial-import": "^2.0.0",
+    "postcss-svgo": "^2.1.5",
     "stylelint": "^7.4.1",
     "stylelint-config-standard": "^13.0.2",
     "uglify-js-brunch": "^2.0.0"
