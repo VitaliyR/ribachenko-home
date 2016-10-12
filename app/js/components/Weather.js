@@ -9,6 +9,8 @@ module.exports = Base.extend({
     this.container = container;
     this.config = config;
     this.store = store;
+    this.update = true;
+    this._update();
   },
 
   getWeather: function() {
@@ -30,7 +32,7 @@ module.exports = Base.extend({
     });
   },
 
-  displayWeather: function(response) {
+  displayWeather: function() {
     var lastExecuted = this.store.get('last_executed');
     var timePassed = lastExecuted ? Date.now() - lastExecuted : Infinity;
     var cachedWeather = this.store.get('weather');
@@ -49,5 +51,12 @@ module.exports = Base.extend({
     var scope = {
     };
     this.container.innerHTML = this.template(weather);
+  },
+
+  _update: function() {
+    if (this.update) {
+      this.displayWeather();
+      setTimeout(this._update.bind(this), this.config.freq + 1000);
+    }
   }
 });

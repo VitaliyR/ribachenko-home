@@ -1,4 +1,5 @@
-<div>
+<div class="weather-wrapper">
    <img src="{{current_condition.[0].weatherIconUrl.[0].value}}"/>
-   {{current_condition.[0].temp_C}} ({{current_condition.[0].FeelsLikeC}})
+   <div>{{current_condition.[0].temp_C}}˚</div>
+   <div>Feels {{current_condition.[0].FeelsLikeC}}˚</div>
 </div>

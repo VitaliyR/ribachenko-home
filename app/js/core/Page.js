@@ -63,5 +63,10 @@ module.exports = Base.extend({
     }
 
     obj.dispatchEvent(event);
+  },
+
+  on: function(eventName, fn, ctx) {
+    ctx = ctx || this;
+    this.container.addEventListener(eventName, fn);
   }
 });

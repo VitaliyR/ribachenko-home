@@ -14,12 +14,5 @@ module.exports = Page.extend({
     this.config = config;
     this.weather = new Weather(this.elements.weatherContainer, config.weather, store.substore('weather'));
     this.time = new Time(this.elements.timeContainer);
-
-    this.time.displayTime();
-    this.getWeather();
-  },
-
-  getWeather: function() {
-    this.weather.displayWeather();
   }
 });

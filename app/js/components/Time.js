@@ -7,15 +7,13 @@ module.exports = Base.extend({
 
   date: 'dddd, Do MMMM',
   time: 'HH:mm',
+  freq: 1000,
 
   constructor: function(container, config) {
     this.container = container;
     this.config = config;
     this.update = true;
-  },
-
-  update: function() {
-    setTimeout(this.displayTime.bind(this))
+    this._update();
   },
 
   displayTime: function() {
@@ -24,5 +22,12 @@ module.exports = Base.extend({
       date: now.format(this.date),
       time: now.format(this.time)
     });
+  },
+
+  _update: function() {
+    if (this.update) {
+      this.displayTime();
+      setTimeout(this._update.bind(this), this.freq);
+    }
   }
 });

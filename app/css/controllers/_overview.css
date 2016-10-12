@@ -1,5 +1,12 @@
 .overview-page {
   padding: 20px;
+  display: flex;
 
   @import "../components/time";
+  @import "../components/weather";
+
+  .time-container,
+  .weather-container {
+    flex: 1;
+  }
 }
