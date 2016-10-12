@@ -5,8 +5,12 @@
   @import "../components/time";
   @import "../components/weather";
 
-  .time-container,
+  .time-container {
+    flex: 1;
+  }
+
   .weather-container {
+    text-align: right;
     flex: 1;
   }
 }

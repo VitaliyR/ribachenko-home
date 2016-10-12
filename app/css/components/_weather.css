@@ -1,0 +1,10 @@
+.weather-container {
+  .temperature {
+    font-size: 3rem;
+  }
+
+  .temperature-feels {
+    color: #aaa;
+    font-size: 1rem;
+  }
+}
