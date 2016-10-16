@@ -5,10 +5,9 @@
 
 .container {
   display: flex;
-  overflow: hidden;
 
   &.is-animating {
-    transition: transform 400ms cubic-bezier( 0.5, 0, 0.5, 1 );
+    transition: transform 400ms cubic-bezier(.5, 0, .5, 1);
   }
 }
 
