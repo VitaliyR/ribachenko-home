@@ -19,7 +19,7 @@ router.get('/system/:action', function *(next) {
   if (action === 'reboot') {
     execute('sudo reboot');
   } else if (action === 'shutdown') {
-    execute('sudo shutdown -r now');
+    execute('sudo poweroff');
   }
 
   this.status = 200;
