@@ -17,9 +17,9 @@ router.get('/system/:action', function *(next) {
   const action = this.params.action;
 
   if (action === 'reboot') {
-    execute('reboot');
+    execute('sudo reboot');
   } else if (action === 'shutdown') {
-    execute('shutdown -r now');
+    execute('sudo shutdown -r now');
   }
 
   this.status = 200;
