@@ -21,6 +21,17 @@ module.exports = {
   },
   overrides: {
     production: {
+      plugins: {
+        off: ['eslint-brunch'],
+        postcss: {
+          processors: [
+            require('postcss-partial-import')(),
+            require('postcss-nested')(),
+            require('postcss-inline-svg')(),
+            require('postcss-svgo')()
+          ]
+        }
+      }
     }
   }
 };
