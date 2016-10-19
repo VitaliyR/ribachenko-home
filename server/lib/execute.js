@@ -1,11 +1,10 @@
-const log = require('logger');
+const log = require('loggy');
 const exec = require('child_process').exec;
 
 /**
  * Executes provided script/command
- * @param  {[type]}   command  [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * @param  {String} command
+ * @param  {Function} [callback=]
  */
 const execute = function(command, callback) {
   exec(command, function(error, stdout, stderr) {
