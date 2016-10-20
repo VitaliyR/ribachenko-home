@@ -1,0 +1,15 @@
+.power-modal {
+  .button {
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, .5);
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    margin: 15px;
+    border: 2px solid #fff;
+  }
+}

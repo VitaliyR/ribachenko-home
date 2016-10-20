@@ -12,6 +12,7 @@ module.exports = {
     postcss: {
       processors: [
         require('postcss-partial-import')(),
+        require('postcss-each')(),
         require('postcss-nested')(),
         require('postcss-inline-svg')(),
         require('postcss-svgo')(),
@@ -26,9 +27,11 @@ module.exports = {
         postcss: {
           processors: [
             require('postcss-partial-import')(),
+            require('postcss-each')(),
             require('postcss-nested')(),
             require('postcss-inline-svg')(),
-            require('postcss-svgo')()
+            require('postcss-svgo')(),
+            require('csswring')()
           ]
         }
       }

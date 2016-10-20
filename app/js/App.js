@@ -1,9 +1,12 @@
+require('./lib/helpers');
+
 var Hammer = require('hammerjs');
 
 var Page = require('./core/Page');
 var Store = require('./core/Store');
 var utils = require('./lib/utils');
 var controllers = require('./controllers/all');
+var modals = require('./modals/all');
 
 var Slider = require('./components/Slider');
 
@@ -12,6 +15,7 @@ var config = require('../../config');
 module.exports = Page.extend({
   selectors: {
     pagesContainer: '.container',
+    modalContainer: '.modal-overlay',
     bubbles: '.bubbles',
     buttons: '.buttons',
     button: '.buttons li'
@@ -39,10 +43,12 @@ module.exports = Page.extend({
     this.pagesSlider.on('switch:slide', this.switchButton.bind(this));
 
     this.initiateButtons();
+
+    this.elements.modalContainer.style.display = 'none';
   },
 
   initiateButtons: function() {
-    var mgr = new Hammer.Manager(document.body);
+    var mgr = new Hammer.Manager(this.container);
     var swipe = new Hammer.Swipe({ direction: Hammer.DIRECTION_UP });
     mgr.on('swipe', this.showButtons.bind(this));
     mgr.add(swipe);
@@ -53,7 +59,9 @@ module.exports = Page.extend({
   },
 
   showButtons: function() {
-    this.elements.buttons.style.bottom = '0';
+    if (!this.modal) {
+      this.elements.buttons.style.bottom = '0';
+    }
   },
 
   hideButtons: function() {
@@ -67,6 +75,13 @@ module.exports = Page.extend({
     if (dataPage) {
       var slideNumber = Array.prototype.indexOf.call(this.elements.buttons.children, button);
       this.pagesSlider.switchSlide(slideNumber);
+    } else {
+      var dataModal = button.getAttribute('data-modal');
+      if (dataModal) {
+        var modal = this.modal = new modals[dataModal](this.elements.modalContainer);
+        modal.on('hide', function() { this.modal = null; }.bind(this));
+        modal.show();
+      }
     }
 
     this.hideButtons();

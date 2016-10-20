@@ -12,10 +12,6 @@
       <div class="page overview-page" data-page="Overview">
          <div class="time-container"></div>
          <div class="weather-container"></div>
-         <div class="power-controls">
-            <div data-action="shutdown">Shutdown</div>
-            <div data-action="reboot">Reboot</div>
-         </div>
       </div>
       <div class="page" data-page="Lights">
          Lights page
@@ -25,11 +21,15 @@
    <ul class="buttons">
       <li class="selected" data-page="Overview">
          <div class="icon icon-overview"></div>
-         <div class="">Overview</div>
+         <div>Overview</div>
       </li><li data-page="Lights">
          <div class="icon icon-lights"></div>
-         <div class="">Lights</div>
+         <div>Lights</div>
+      </li><li data-modal="Power">
+        <div class="icon icon-shutdown"></div>
+        <div>Power</div>
       </li>
    </ul>
+   <div class="modal-overlay"></div>
 </body>
 </html>

@@ -5,6 +5,12 @@ module.exports = Base.extend({
     this.container = container;
     this.store = store;
 
+    if (!this.template) {
+      this.bind();
+    }
+  },
+
+  bind: function() {
     /**
      * @type {Object.<HTMLElement>}
      */

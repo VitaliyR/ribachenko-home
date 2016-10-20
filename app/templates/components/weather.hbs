@@ -1,6 +1,6 @@
 <div class="weather-wrapper">
-   <img src="{{current_condition.[0].weatherIconUrl.[0].value}}"/>
-   <div class="temperature">{{current_condition.[0].temp_C}}˚</div>
-   <div class="temperature-feels">Feels {{current_condition.[0].FeelsLikeC}}˚</div>
-   <div>Last updated at</div>
+   <img src="{{current.icon}}"/>
+   <div class="temperature">{{current.temp}}˚</div>
+   <div class="temperature-feels">Feels {{current.feels}}˚</div>
+   <div>Last updated at {{moment current.updated_at "HH:mm"}}</div>
 </div>

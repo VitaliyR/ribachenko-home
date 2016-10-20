@@ -3,7 +3,7 @@
     "browser": true
   },
   "globals": {
-    "SimpleScrollbar": true
+    "Handlebars": true
   },
   "extends": "standard",
   "rules": {

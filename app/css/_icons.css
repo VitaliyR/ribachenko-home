@@ -5,11 +5,10 @@
   background-size: 40px;
   background-position: 50%;
 
-  &.icon-overview {
-    background-image: svg-load('../res/icons/overview.svg');
+  @each $icon in (overview, lights, shutdown, restart, cancel) {
+    &.icon-$(icon) {
+      background-image: svg-load('../res/icons/$(icon).svg');
+    }
   }
 
-  &.icon-lights {
-    background-image: svg-load('../res/icons/lights.svg');
-  }
 }

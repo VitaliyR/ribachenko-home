@@ -37,10 +37,11 @@ module.exports = Base.extend({
     var timePassed = lastExecuted ? Date.now() - lastExecuted : Infinity;
     var cachedWeather = this.store.get('weather');
     var needUpdate = timePassed > this.config.freq;
+    var runner = Promise.resolve();
 
-    var runner = Promise
-      .resolve(cachedWeather)
-      .then(this._renderWeather.bind(this));
+    if (cachedWeather) {
+      runner.then(this._renderWeather.bind(this, cachedWeather));
+    }
 
     needUpdate && runner
       .then(this.getWeather.bind(this))
@@ -48,9 +49,16 @@ module.exports = Base.extend({
   },
 
   _renderWeather: function(weather) {
+    var current = weather.current_condition[0];
     var scope = {
+      current: {
+        temp: current.temp_C,
+        feels: current.FeelsLikeC,
+        icon: current.weatherIconUrl[0].value,
+        updated_at: this.store.get('last_executed')
+      }
     };
-    this.container.innerHTML = this.template(weather);
+    this.container.innerHTML = this.template(scope);
   },
 
   _update: function() {
