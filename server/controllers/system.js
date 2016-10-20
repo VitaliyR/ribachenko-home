@@ -6,7 +6,7 @@ const actionHandler = function *(next) {
   if (action === 'reboot') {
     execute('sudo reboot');
   } else if (action === 'shutdown') {
-    execute('sudo poweroff');
+    execute('sudo shutdown -h now');
   }
 
   this.status = 200;
