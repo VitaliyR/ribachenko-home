@@ -41,7 +41,7 @@ module.exports = Page.extend({
         this.hide();
         break;
       case 'reboot':
-      case 'poweroff':
+      case 'shutdown':
         utils.request({ url: '/system/' + type });
         break;
     }
