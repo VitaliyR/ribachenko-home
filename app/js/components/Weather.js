@@ -36,7 +36,7 @@ module.exports = Base.extend({
     var lastExecuted = this.store.get('last_executed');
     var timePassed = lastExecuted ? Date.now() - lastExecuted : Infinity;
     var cachedWeather = this.store.get('weather');
-    var needUpdate = timePassed > this.config.freq;
+    var needUpdate = (timePassed > this.config.freq) || !cachedWeather;
     var runner = Promise.resolve();
 
     if (cachedWeather) {

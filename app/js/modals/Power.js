@@ -44,6 +44,15 @@ module.exports = Page.extend({
       case 'shutdown':
         utils.request({ url: '/system/' + type });
         break;
+      case 'update':
+        utils.request({ url: '/system/' + type })
+          .then(function() {
+            location.reload();
+          })
+          .catch(function(err) {
+            alert(err.message);
+          });
+        break;
     }
   }
 });
