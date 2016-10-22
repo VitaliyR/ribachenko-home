@@ -45,7 +45,10 @@ module.exports = Page.extend({
         utils.request({ url: '/system/' + type });
         break;
       case 'update':
-        utils.request({ url: '/system/' + type })
+        utils.request({
+          url: '/system/' + type,
+          timeout: Infinity
+        })
           .then(function() {
             location.reload();
           })
