@@ -22,7 +22,9 @@
     "loggy": "^0.3.5",
     "moment": "^2.15.1",
     "postcss-each": "^0.9.3",
-    "postcss-simple-vars": "^3.0.0"
+    "postcss-simple-vars": "^3.0.0",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1"
   },
   "devDependencies": {
     "auto-reload-brunch": "^2.0.0",

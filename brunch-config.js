@@ -8,6 +8,11 @@ module.exports = {
     },
     templates: { joinTo: 'app.js' }
   },
+  npm: {
+    globals: {
+      'Hammer': 'hammerjs'
+    }
+  },
   plugins: {
     postcss: {
       processors: [
@@ -17,7 +22,10 @@ module.exports = {
         require('postcss-inline-svg')(),
         require('postcss-svgo')(),
         require('stylelint')()
-      ]
+      ],
+      progeny: {
+        prefix: '_'
+      }
     }
   },
   overrides: {

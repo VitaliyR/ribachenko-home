@@ -1,7 +1,5 @@
 require('./lib/helpers');
 
-var Hammer = require('hammerjs');
-
 var Page = require('./core/Page');
 var Store = require('./core/Store');
 var utils = require('./lib/utils');

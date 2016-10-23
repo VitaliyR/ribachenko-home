@@ -3,7 +3,8 @@
     "browser": true
   },
   "globals": {
-    "Handlebars": true
+    "Handlebars": true,
+    "Hammer": true
   },
   "extends": "standard",
   "rules": {
