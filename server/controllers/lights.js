@@ -4,10 +4,10 @@ const lights = require('../lib/lights');
 const switchLights = function *(next) {
   let { lightId, lightState } = this.params;
   lightState = !!lightState;
-  lightId = lightId || 0;
+  lightId = parseInt(lightId, 10) || 0;
 
   if (lightId === 0) {
-    log.info('Switching all lights to ', lightState);
+    log.info('Switching all lights to', lightState);
     yield lights.switchLights(lightState);
   }
 

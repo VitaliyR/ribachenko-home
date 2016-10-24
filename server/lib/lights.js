@@ -7,15 +7,15 @@ module.exports = {
     config = newConfig;
   },
 
-  buildUrl: (...methods) => {
-    return `${config.base}/${config.user}/` + methods.join('/');
+  buildUrl: function(...methods) {
+    return `${config.base}/api/${config.user}/` + methods.join('/');
   },
 
   getLights: () => {
     return request(this.buildUrl('lights'));
   },
 
-  switchLights: (state) => {
+  switchLights: function(state) {
     state = !!state;
 
     return request({
