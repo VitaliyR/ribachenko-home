@@ -10,5 +10,4 @@
       background-image: svg-load('../res/icons/$(icon).svg');
     }
   }
-
 }

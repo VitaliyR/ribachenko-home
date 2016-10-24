@@ -16,41 +16,40 @@
 }
 
 .buttons {
-   background: #262626;
-   list-style: none;
-   padding: 0;
-   border-top: 1px solid #476A5D;
-   position: fixed;
-   bottom: 0;
-   margin: 0;
-   width: 100%;
-   transition: bottom .5s;
+  background: #262626;
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid #476a5d;
+  position: fixed;
+  bottom: 0;
+  margin: 0;
+  width: 100%;
+  transition: bottom .5s;
 
-   li {
-      display: inline-block;
-      color: #fff;
-      cursor: pointer;
-      text-align: center;
-      width: 80px;
-      height: 80px;
-      display: inline-flex;
-      flex-flow: column nowrap;
-      justify-content: center;
+  li {
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    display: inline-flex;
+    flex-flow: column nowrap;
+    justify-content: center;
 
-      &:hover {
-        background: rgba(106, 161, 139, .6);
-      }
+    &:hover {
+      background: rgba(106, 161, 139, .6);
+    }
 
-      &.selected {
-         background: #6AA18B;
-      }
+    &.selected {
+      background: #6aa18b;
+    }
 
-      div {
-        margin: 0 auto;
-        font-size: .8rem;
-        line-height: .8rem;
-      }
-   }
+    div {
+      margin: 0 auto;
+      font-size: .8rem;
+      line-height: .8rem;
+    }
+  }
 }
 
 .bubbles {

@@ -1,3 +1,16 @@
+const postcssPlugins = [
+  require('postcss-processor-order'),
+  require('stylelint')(),
+  require('postcss-each')(),
+  require('postcss-nested')(),
+  require('postcss-inline-svg')(),
+  require('postcss-svgo')(),
+  require('postcss-reporter')({ clearMessages: true })
+];
+const postcssPluginsProd = postcssPlugins.filter(p => !~['stylelint'].indexOf(p.postcssPlugin)).concat([ require('csswring') ]);
+postcssPlugins.splice(1, 0, require('postcss-partial-import')({ plugins: postcssPlugins }));
+postcssPluginsProd.splice(1, 0, require('postcss-partial-import')({ plugins: postcssPluginsProd }));
+
 module.exports = {
   files: {
     javascripts: { joinTo: 'app.js' },
@@ -15,14 +28,7 @@ module.exports = {
   },
   plugins: {
     postcss: {
-      processors: [
-        require('postcss-partial-import')(),
-        require('postcss-each')(),
-        require('postcss-nested')(),
-        require('postcss-inline-svg')(),
-        require('postcss-svgo')(),
-        require('stylelint')()
-      ],
+      processors: postcssPlugins,
       progeny: {
         prefix: '_'
       }
@@ -33,14 +39,7 @@ module.exports = {
       plugins: {
         off: ['eslint-brunch'],
         postcss: {
-          processors: [
-            require('postcss-partial-import')(),
-            require('postcss-each')(),
-            require('postcss-nested')(),
-            require('postcss-inline-svg')(),
-            require('postcss-svgo')(),
-            require('csswring')()
-          ]
+          processors: postcssPluginsProd
         }
       }
     }
