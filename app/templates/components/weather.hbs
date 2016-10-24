@@ -2,5 +2,8 @@
    <img src="{{current.icon}}"/>
    <div class="temperature">{{current.temp}}˚</div>
    <div class="temperature-feels">Feels {{current.feels}}˚</div>
+   <div class="temperature-min">{{mintemp}}</div>
+   <div class="temperature-max">{{maxtemp}}</div>
+   <div class="chance-rain"><span class="icon icon-rain"></span>{{chanceofrain}}%</div>
    <div>Last updated at {{moment current.updated_at "HH:mm"}}</div>
 </div>
