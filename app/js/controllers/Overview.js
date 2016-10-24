@@ -12,10 +12,11 @@ module.exports = Page.extend({
 
   constructor: function(container, store, config) {
     this.constructor.__super__.constructor.apply(this, arguments);
-    this.store = store;
     this.config = config;
     this.weather = new Weather(this.elements.weatherContainer, config.weather, store.substore('weather'));
     this.time = new Time(this.elements.timeContainer);
-    this.lights = new Lights(this.elements.lightsContainer);
+    this.lights = new Lights(this.elements.lightsContainer, {
+      lights: [{ id: 0, isGroup: true, name: 'All lights', state: false }]
+    });
   }
 });

@@ -13,5 +13,17 @@ module.exports = {
 
   getLights: () => {
     return request(this.buildUrl('lights'));
+  },
+
+  switchLights: (state) => {
+    state = !!state;
+
+    return request({
+      uri: this.buildUrl('groups', 0, 'action'),
+      method: 'PUT',
+      json: {
+        on: state
+      }
+    });
   }
 };

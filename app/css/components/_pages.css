@@ -36,7 +36,7 @@
     flex-flow: column nowrap;
     justify-content: center;
 
-    &:hover {
+    &:hover, &:active {
       background: rgba(106, 161, 139, .6);
     }
 

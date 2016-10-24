@@ -26,5 +26,6 @@ body {
 @import "icons";
 @import "components/pages";
 @import "components/modal";
+@import "components/lights";
 @import "modals/power";
 @import "controllers/overview";

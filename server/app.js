@@ -5,7 +5,7 @@ const log = require('loggy');
 const config = require('../config');
 const router = require('./router');
 
-require('lib/lights').configure(config.lights);
+require('./lib/lights').configure(config.lights);
 
 app.use(router.routes());
 app.use(router.allowedMethods());

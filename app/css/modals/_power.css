@@ -11,5 +11,9 @@
     flex-flow: column nowrap;
     margin: 15px;
     border: 2px solid #fff;
+
+    &:active {
+      background: rgba(255, 255, 255, .75);
+    }
   }
 }

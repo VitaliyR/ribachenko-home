@@ -1,14 +1,18 @@
-var Base = require('../core/Base');
+var Page = require('../core/Page');
 
-module.exports = Base.extend({
+module.exports = Page.extend({
   template: require('templates/components/lights'),
 
   constructor: function(container, config) {
     this.container = container;
     this.config = config;
+    this.render();
   },
 
-  render: function(scope) {
+  render: function() {
+    var scope = {
+      lights: this.config.lights
+    };
     this.container.innerHTML = this.template(scope);
   }
 });

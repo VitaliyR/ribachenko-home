@@ -1,0 +1,20 @@
+.lights-container {
+  .light-button {
+    background: rgba(255, 255, 255, .1);
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+
+    &:active {
+      background: rgba(255, 255, 255, .25);
+    }
+  }
+
+  .light-name {
+    font-size: .85rem;
+  }
+}
