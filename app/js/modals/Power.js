@@ -45,16 +45,8 @@ module.exports = Page.extend({
         utils.request({ url: '/system/' + type });
         break;
       case 'update':
-        utils.request({
-          url: '/system/' + type,
-          timeout: Infinity
-        })
-          .then(function() {
-            location.reload();
-          })
-          .catch(function(err) {
-            alert(err.message);
-          });
+        // FIXME: temporary solution
+        window.location.reload();
         break;
     }
   }
