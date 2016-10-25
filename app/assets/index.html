@@ -10,9 +10,13 @@
 <body>
    <div class="container">
       <div class="page overview-page" data-page="Overview">
-         <div class="time-container"></div>
-         <div class="weather-container"></div>
-         <div class="lights-container"></div>
+         <div class="left-column">
+            <div class="time-container"></div>
+            <div class="lights-container"></div>
+         </div>
+         <div class="right-column">
+            <div class="weather-container"></div>
+         </div>
       </div>
       <div class="page" data-page="Lights">
         <h2>Lights</h2>
@@ -26,7 +30,7 @@
          <div class="icon icon-overview"></div>
          <div>Overview</div>
       </li><li data-page="Lights">
-         <div class="icon icon-lights"></div>
+         <div class="icon icon-light"></div>
          <div>Lights</div>
       </li><li data-modal="Power">
         <div class="icon icon-shutdown"></div>

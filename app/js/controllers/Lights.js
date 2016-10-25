@@ -10,12 +10,9 @@ module.exports = Page.extend({
   constructor: function(container, store, config) {
     this.constructor.__super__.constructor.apply(this, arguments);
     this.config = config;
-    this.lights = new Lights(this.elements.lightsContainer, {
+    this.allLights = new Lights(this.elements.lightsContainer, {
       lights: [
-        { id: 0, isGroup: true, name: 'All lights', state: false },
-        { id: 1, isGroup: false, name: '1st Light', state: false },
-        { id: 2, isGroup: false, name: '2nd Light', state: true },
-        { id: 3, isGroup: false, name: '3rd Light', state: false }
+        { id: 0, isGroup: true, name: 'All lights', state: true }
       ]
     });
   }

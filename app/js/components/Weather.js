@@ -6,7 +6,7 @@ var utils = require('../lib/utils');
 module.exports = Base.extend({
   template: require('templates/components/weather'),
   url: 'http://api.worldweatheronline.com/premium/v1/weather.ashx',
-  timeRange: 9,
+  timeRange: 12,
 
   constructor: function(container, config, store) {
     this.container = container;
@@ -80,6 +80,7 @@ module.exports = Base.extend({
         temp: current.temp_C,
         feels: current.FeelsLikeC,
         icon: current.weatherIconUrl[0].value,
+        wind_direction: current.winddir16Point.toLowerCase(),
         updated_at: this.store.get('last_executed')
       },
       chanceofrain: forecast.rain,

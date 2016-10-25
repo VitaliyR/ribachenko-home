@@ -5,7 +5,8 @@ var Base = require('../core/Base');
 module.exports = Base.extend({
   template: require('templates/components/time'),
 
-  date: 'dddd, Do MMMM',
+  day: 'dddd',
+  date: 'Do MMMM',
   time: 'HH:mm',
   freq: 1000,
 
@@ -19,6 +20,7 @@ module.exports = Base.extend({
   displayTime: function() {
     var now = moment();
     this.container.innerHTML = this.template({
+      day: now.format(this.day),
       date: now.format(this.date),
       time: now.format(this.time)
     });

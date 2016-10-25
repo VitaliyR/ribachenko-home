@@ -1,6 +1,10 @@
 .container,
 .page {
   height: 100%;
+
+  h2 {
+    margin-top: 0;
+  }
 }
 
 .container {
@@ -14,6 +18,7 @@
 
 .page {
   width: 100%;
+  padding: 20px;
 }
 
 .buttons {

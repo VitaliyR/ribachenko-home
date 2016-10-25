@@ -1,16 +1,17 @@
 .overview-page {
-  padding: 20px;
   display: flex;
 
   @import "../components/time";
   @import "../components/weather";
 
-  .time-container {
-    flex: 1;
+  > .left-column {
+    flex: 3;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
   }
 
-  .weather-container {
-    text-align: right;
+  > .right-column {
     flex: 1;
   }
 }

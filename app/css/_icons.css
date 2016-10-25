@@ -5,9 +5,19 @@
   background-size: 40px;
   background-position: 50%;
 
-  @each $icon in (overview, lights, shutdown, restart, cancel, update, rain, light, light-activated, spinner) {
+  @each $icon in (overview, shutdown, restart, cancel, update, rain, light, light-activated, spinner, arrow) {
     &.icon-$(icon) {
       background-image: svg-load('../res/icons/$(icon).svg');
+    }
+  }
+
+  &.icon-arrow {
+    @each $direction, $rotate in (nne, ne, ene, e, ese, se, sse, s, ssw, sw, wsw, w, wnw, nw, nnw, n), (-23, 0, 23, 45, 68, 90, 113, 135, 158, 180, 203, 225, 248, 270, 293, 315) {
+      &.direction-$(direction) {
+        /* stylelint-disable */
+        transform: rotate($(rotate)deg);
+        /* stylelint-enable */
+      }
     }
   }
 }
