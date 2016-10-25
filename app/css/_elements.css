@@ -34,4 +34,14 @@
       height: 30px;
     }
   }
+
+  &.button-flex {
+    width: auto;
+    height: auto;
+    margin: 0;
+  }
+
+  &.button-dynamic-color:active {
+    opacity: .75;
+  }
 }

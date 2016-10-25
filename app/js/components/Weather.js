@@ -1,12 +1,16 @@
 var moment = require('moment');
 
-var Base = require('../core/Base');
+var Page = require('../core/Page');
 var utils = require('../lib/utils');
 
-module.exports = Base.extend({
+module.exports = Page.extend({
   template: require('templates/components/weather'),
   url: 'http://api.worldweatheronline.com/premium/v1/weather.ashx',
   timeRange: 12,
+
+  selectors: {
+    chanceRain: '.chance-rain'
+  },
 
   constructor: function(container, config, store) {
     this.container = container;
@@ -83,11 +87,18 @@ module.exports = Base.extend({
         wind_direction: current.winddir16Point.toLowerCase(),
         updated_at: this.store.get('last_executed')
       },
+      forecastRange: this.timeRange,
       chanceofrain: forecast.rain,
       mintemp: forecast.min,
       maxtemp: forecast.max
     };
     this.container.innerHTML = this.template(scope);
+    this.bind();
+
+    var bg = window.getComputedStyle(this.elements.chanceRain).backgroundColor;
+    bg = bg.match(/\((.+)\)/)[1].split(',').map(function(e) { return e.trim(); });
+    bg[bg.length - 1] = '.' + scope.chanceofrain
+    this.elements.chanceRain.style.backgroundColor = 'rgba(' + bg.join(',') + ')';
   },
 
   _update: function() {

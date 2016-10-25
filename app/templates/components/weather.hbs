@@ -16,9 +16,9 @@
          <div class="temperature-feels">{{current.feels}}˚ <span class="description">feels</span></div>
       </div>
    </div>
-   <div class="chance-rain">
-      <span class="icon icon-rain"></span>
-      {{chanceofrain}}%
+   <div class="chance-rain button button-flex button-dynamic-color">
+         <span class="icon icon-rain">{{forecastRange}}</span>
+         {{chanceofrain}}%
    </div>
    <div class="last-updated">
       Updated at {{moment current.updated_at "HH:mm"}}

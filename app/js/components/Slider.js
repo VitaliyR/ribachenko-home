@@ -22,7 +22,7 @@ module.exports = Page.extend({
     this.pagination.children[0].classList.add(this.selectedClass);
 
     var sliderManager = new Hammer.Manager(container);
-    sliderManager.add(new Hammer.Pan({ threshold: 40, pointers: 0 }));
+    sliderManager.add(new Hammer.Pan({ threshold: 100, pointers: 0 }));
     sliderManager.on('pan', this.handlePan.bind(this));
   },
 
