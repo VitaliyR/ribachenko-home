@@ -5,6 +5,7 @@
 
 .container {
   display: flex;
+  transform: translate3d(0, 0, 0);
 
   &.is-animating {
     transition: transform 400ms cubic-bezier(.5, 0, .5, 1);
