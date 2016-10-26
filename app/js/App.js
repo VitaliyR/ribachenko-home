@@ -1,5 +1,7 @@
 require('./lib/helpers');
 
+var Socket = require('socket.io-client');
+
 var Page = require('./core/Page');
 var Store = require('./core/Store');
 var utils = require('./lib/utils');
@@ -43,6 +45,8 @@ module.exports = Page.extend({
     this.initiateButtons();
 
     this.elements.modalContainer.style.display = 'none';
+
+    this.socket = new Socket();
   },
 
   initiateButtons: function() {

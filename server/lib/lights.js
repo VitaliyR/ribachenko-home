@@ -1,4 +1,4 @@
-const request = require('request-promise');
+const request = require('request-promise-native');
 
 var config;
 
@@ -11,8 +11,14 @@ module.exports = {
     return `${config.base}/api/${config.user}/` + methods.join('/');
   },
 
-  getLights: () => {
-    return request(this.buildUrl('lights'));
+  getLights: function() {
+    return Promise.all([
+      request({ uri: this.buildUrl('groups', 0), json: true }),
+      request({ uri: this.buildUrl('lights'), json: true })
+    ]).then(config => {
+      config[1][0] = config[0];
+      return config[1];
+    });
   },
 
   switchLights: function(state) {
