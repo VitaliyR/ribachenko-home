@@ -7,7 +7,6 @@
   .weather-wrapper {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between;
   }
 
   .conditions {
@@ -22,8 +21,8 @@
   }
 
   .weather-image {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background-size: cover;
     background-position: 50%;
     margin-left: 10px;
@@ -37,6 +36,7 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    margin: 10px 0;
 
     .left-column,
     .right-column {
@@ -53,6 +53,16 @@
       display: flex;
       flex-flow: column nowrap;
       text-align: left;
+
+      div {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+
+        span {
+          margin: 0 5px;
+        }
+      }
     }
 
     .description {
@@ -77,6 +87,7 @@
   }
 
   .last-updated {
+    margin-top: auto;
     align-self: flex-end;
     font-size: .75rem;
   }

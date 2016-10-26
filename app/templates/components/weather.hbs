@@ -11,9 +11,17 @@
          <div class="temperature-now">{{current.temp}}˚</div>
       </div>
       <div class="right-column">
-         <div class="temperature-min">{{mintemp}}˚ <span class="description">min</span></div>
-         <div class="temperature-max">{{maxtemp}}˚ <span class="description">max</span></div>
-         <div class="temperature-feels">{{current.feels}}˚ <span class="description">feels</span></div>
+         <div class="temperature-min">
+            <span class="value">{{mintemp}}˚</span>
+            <span class="description">min</span></div>
+         <div class="temperature-max">
+            <span class="value">{{maxtemp}}˚</span>
+            <span class="description">max</span>
+         </div>
+         <div class="temperature-feels">
+            <span class="value">{{current.feels}}˚</span>
+            <span class="description">feels</span>
+         </div>
       </div>
    </div>
    <div class="chance-rain button button-flex button-dynamic-color">

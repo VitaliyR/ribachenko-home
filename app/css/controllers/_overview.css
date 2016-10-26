@@ -5,13 +5,13 @@
   @import "../components/weather";
 
   > .left-column {
-    flex: 3;
+    flex: 4;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
   }
 
   > .right-column {
-    flex: 1;
+    flex: 2;
   }
 }

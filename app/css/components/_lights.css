@@ -6,8 +6,8 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
 
     &:active {
       background: rgba(255, 255, 255, .25);
