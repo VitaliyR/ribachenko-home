@@ -15,8 +15,6 @@ module.exports = Page.extend({
     this.config = config;
     this.weather = new Weather(this.elements.weatherContainer, config.weather, store.substore('weather'));
     this.time = new Time(this.elements.timeContainer);
-    this.lights = new Lights(this.elements.lightsContainer, {
-      lights: [{ id: 0, isGroup: true, name: 'All lights', state: false }]
-    });
+    this.lights = new Lights(this.elements.lightsContainer, {lights: [{}]}); // TODO load lights
   }
 });

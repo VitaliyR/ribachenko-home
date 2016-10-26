@@ -29,8 +29,16 @@ module.exports = Page.extend({
   constructor: function() {
     this.constructor.__super__.constructor.apply(this, arguments);
 
+    var self = this;
+
     this.store = Store.register('app');
     this.config = config;
+
+    this.socket = Socket.connect();
+    this.socket.on('configuration', function(config) {
+      console.log(config); // FIXME: remove
+      self.config.lights = config;
+    });
 
     this.controllers = [];
     utils.arr(this.elements.pagesContainer.children).forEach(function(child) {
@@ -45,8 +53,6 @@ module.exports = Page.extend({
     this.initiateButtons();
 
     this.elements.modalContainer.style.display = 'none';
-
-    this.socket = new Socket();
   },
 
   initiateButtons: function() {

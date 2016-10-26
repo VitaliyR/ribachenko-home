@@ -6,10 +6,8 @@ const getConfiguration = () => {
 };
 
 module.exports = {
-  connection: function() {
+  connection: function(data) {
     log.info('Socket connected');
-    getConfiguration().then(config => {
-      log.info(config);
-    });
+    getConfiguration().then(config => data.socket.emit('configuration', config));
   }
 };

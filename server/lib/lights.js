@@ -17,6 +17,9 @@ module.exports = {
       request({ uri: this.buildUrl('lights'), json: true })
     ]).then(config => {
       config[1][0] = config[0];
+      for (let lampId in config[1]) {
+        config[1][lampId].name = lampId === 0 ? 'All Lights' : `Light ${lampId}`;
+      }
       return config[1];
     });
   },
