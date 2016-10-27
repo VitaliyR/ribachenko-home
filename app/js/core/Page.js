@@ -36,13 +36,16 @@ module.exports = Base.extend({
         eventHandler.apply(this);
       } else {
         eventObj = window[eventObj] || this.elements[eventObj];
+        if (!eventObj) {
+          eventObj = this.container;
+        }
 
         if (eventObj) {
-          if (typeof eventObj === 'object' && !eventObj.length) {
+          if (!Array.isArray(eventObj)) {
             eventObj = [eventObj];
           }
           var eventDecl = eventHandler.bind(this);
-          eventObj.forEach(function(obj) {
+          eventObj.length && eventObj.forEach(function(obj) {
             obj.addEventListener(eventName, eventDecl);
           }, this);
         }
@@ -55,6 +58,19 @@ module.exports = Base.extend({
     this.triggerOn.apply(this, args);
   },
 
+  triggerAll: function(objs) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    objs.forEach(function(obj) {
+      obj.trigger.apply(obj, args);
+    }, this);
+  },
+
+  /**
+   * Trigger event on objects
+   * @param  {Object} obj
+   * @param  {string} eventName
+   * @returns {CustomEvent}
+   */
   triggerOn: function(obj, eventName) {
     var data = Array.prototype.slice.call(arguments, 2);
     var event;
@@ -69,6 +85,8 @@ module.exports = Base.extend({
     }
 
     obj.dispatchEvent(event);
+
+    return event;
   },
 
   on: function(eventName, fn, ctx) {

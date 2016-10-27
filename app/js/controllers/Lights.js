@@ -7,13 +7,25 @@ module.exports = Page.extend({
     lightsContainer: '.lights-container'
   },
 
-  constructor: function(container, store, config) {
+  events: {
+    'configuration': 'updateLights',
+    'lights:update': 'updateLights'
+  },
+
+  constructor: function(container, store, socket, config) {
     this.constructor.__super__.constructor.apply(this, arguments);
     this.config = config;
-    this.allLights = new Lights(this.elements.lightsContainer, {
-      lights: [
-        { id: 0, isGroup: true, name: 'All lights', state: true }
-      ]
-    });
+    this.socket = socket;
+    this.allLights = new Lights(this.elements.lightsContainer);
+    this.allLights.on('switch', this.switchLight.bind(this));
+  },
+
+  updateLights: function(event) {
+    var lights = event.detail;
+    this.allLights.setLights({ lights: lights });
+  },
+
+  switchLight: function(lightId) {
+    this.socket.emit('switchLight', lightId);
   }
 });

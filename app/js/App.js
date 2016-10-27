@@ -36,14 +36,18 @@ module.exports = Page.extend({
 
     this.socket = Socket.connect();
     this.socket.on('configuration', function(config) {
-      console.log(config); // FIXME: remove
       self.config.lights = config;
+      self.triggerAll(self.controllers, 'configuration', config);
+    });
+    this.socket.on('lights:update', function(lights) {
+      Object.assign(self.config.lights, lights);
+      self.triggerAll(self.controllers, 'lights:update', self.config.lights);
     });
 
     this.controllers = [];
     utils.arr(this.elements.pagesContainer.children).forEach(function(child) {
       var controllerName = child.getAttribute('data-page');
-      var controller = new controllers[controllerName](child, this.store, this.config);
+      var controller = new controllers[controllerName](child, this.store, this.socket, this.config);
       this.controllers.push(controller);
     }, this);
 

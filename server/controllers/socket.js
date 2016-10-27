@@ -9,5 +9,9 @@ module.exports = {
   connection: function(data) {
     log.info('Socket connected');
     getConfiguration().then(config => data.socket.emit('configuration', config));
+  },
+
+  switchLight: function(data) {
+    log.info('Switching light');
   }
 };

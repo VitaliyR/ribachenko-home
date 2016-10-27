@@ -2,12 +2,13 @@
   .light-button {
     background: rgba(255, 255, 255, .1);
     border-radius: 10px;
-    display: flex;
+    display: inline-flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
     width: 100px;
     height: 100px;
+    margin: 5px;
 
     &:active {
       background: rgba(255, 255, 255, .25);

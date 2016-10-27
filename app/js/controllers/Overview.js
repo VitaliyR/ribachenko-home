@@ -10,11 +10,32 @@ module.exports = Page.extend({
     lightsContainer: '.lights-container'
   },
 
-  constructor: function(container, store, config) {
+  events: {
+    'configuration': 'updateLights',
+    'lights:update': 'updateLights'
+  },
+
+  constructor: function(container, store, socket, config) {
     this.constructor.__super__.constructor.apply(this, arguments);
     this.config = config;
+    this.socket = socket;
     this.weather = new Weather(this.elements.weatherContainer, config.weather, store.substore('weather'));
     this.time = new Time(this.elements.timeContainer);
-    this.lights = new Lights(this.elements.lightsContainer, {lights: [{}]}); // TODO load lights
+    this.lights = new Lights(this.elements.lightsContainer, { lights: [{ id: 0, name: 'All Lights' }] });
+    this.lights.on('switch', this.switchLight.bind(this));
+  },
+
+  updateLights: function(event) {
+    var config = event.detail;
+    var lights = config.lights || config;
+
+    if (lights[0]) {
+      var newLights = { 0: lights[0] };
+      this.lights.setLights({ lights: newLights });
+    }
+  },
+
+  switchLight: function(lightId) {
+    this.socket.emit('switchLight', lightId);
   }
 });

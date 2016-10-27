@@ -97,7 +97,7 @@ module.exports = Page.extend({
 
     var bg = window.getComputedStyle(this.elements.chanceRain).backgroundColor;
     bg = bg.match(/\((.+)\)/)[1].split(',').map(function(e) { return e.trim(); });
-    bg[bg.length - 1] = '.' + scope.chanceofrain
+    bg[bg.length - 1] = '.' + scope.chanceofrain;
     this.elements.chanceRain.style.backgroundColor = 'rgba(' + bg.join(',') + ')';
   },
 
