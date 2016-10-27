@@ -1,13 +1,9 @@
 .weather-container {
-  &,
-  .weather-wrapper {
-    height: 100%;
-  }
-
-  .weather-wrapper {
-    display: flex;
-    flex-flow: column nowrap;
-  }
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+  right: 0;
 
   .conditions {
     display: flex;

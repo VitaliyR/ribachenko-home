@@ -13,5 +13,6 @@
 
   > .right-column {
     flex: 2;
+    position: relative;
   }
 }

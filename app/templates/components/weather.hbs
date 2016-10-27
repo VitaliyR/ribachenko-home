@@ -1,34 +1,32 @@
-<div class="weather-wrapper">
-   <div class="conditions">
-      <div class="button button-icon button-small inactive">
-         <div class="icon icon-arrow direction-{{current.wind_direction}}"></div>
-         <div class="wind">{{current.wind_direction}}</div>
-      </div>
-      <div class="weather-image" style="background-image: url({{current.icon}});"></div>
-   </div>
-   <div class="temperature">
-      <div class="left-column">
-         <div class="temperature-now">{{current.temp}}˚</div>
-      </div>
-      <div class="right-column">
-         <div class="temperature-min">
-            <span class="value">{{mintemp}}˚</span>
-            <span class="description">min</span></div>
-         <div class="temperature-max">
-            <span class="value">{{maxtemp}}˚</span>
-            <span class="description">max</span>
-         </div>
-         <div class="temperature-feels">
-            <span class="value">{{current.feels}}˚</span>
-            <span class="description">feels</span>
-         </div>
-      </div>
-   </div>
-   <div class="chance-rain button button-flex button-dynamic-color">
-         <span class="icon icon-rain">{{forecastRange}}</span>
-         {{chanceofrain}}%
-   </div>
-   <div class="last-updated">
-      Updated at {{moment current.updated_at "HH:mm"}}
-   </div>
-</div>
+ <div class="conditions">
+    <div class="button button-icon button-small inactive">
+       <div class="icon icon-arrow direction-{{current.wind_direction}}"></div>
+       <div class="wind">{{current.wind_direction}}</div>
+    </div>
+    <div class="weather-image" style="background-image: url({{current.icon}});"></div>
+ </div>
+ <div class="temperature">
+    <div class="left-column">
+       <div class="temperature-now">{{current.temp}}˚</div>
+    </div>
+    <div class="right-column">
+       <div class="temperature-min">
+          <span class="value">{{mintemp}}˚</span>
+          <span class="description">min</span></div>
+       <div class="temperature-max">
+          <span class="value">{{maxtemp}}˚</span>
+          <span class="description">max</span>
+       </div>
+       <div class="temperature-feels">
+          <span class="value">{{current.feels}}˚</span>
+          <span class="description">feels</span>
+       </div>
+    </div>
+ </div>
+ <div class="chance-rain button button-flex button-dynamic-color">
+       <span class="icon icon-rain">{{forecastRange}}</span>
+       {{chanceofrain}}%
+ </div>
+ <div class="last-updated">
+    Updated at {{moment current.updated_at "HH:mm"}}
+ </div>
