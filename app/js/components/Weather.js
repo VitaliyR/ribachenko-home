@@ -6,10 +6,15 @@ var utils = require('../lib/utils');
 module.exports = Page.extend({
   template: require('templates/components/weather'),
   url: 'http://api.worldweatheronline.com/premium/v1/weather.ashx',
+  timeRanges: [3, 6, 12, 18],
   timeRange: 12,
 
   selectors: {
     chanceRain: '.chance-rain'
+  },
+
+  events: {
+    'click chanceRain': 'switchTimeRange'
   },
 
   constructor: function(container, config, store) {
@@ -89,15 +94,16 @@ module.exports = Page.extend({
       },
       forecastRange: this.timeRange,
       chanceofrain: forecast.rain,
-      mintemp: forecast.min,
-      maxtemp: forecast.max
+      mintemp: weather.weather[0].mintemp,
+      maxtemp: weather.weather[0].maxtemp
     };
     this.container.innerHTML = this.template(scope);
     this.bind();
 
+    this.elements.chanceRain.style.backgroundColor = '';
     var bg = window.getComputedStyle(this.elements.chanceRain).backgroundColor;
     bg = bg.match(/\((.+)\)/)[1].split(',').map(function(e) { return e.trim(); });
-    bg[bg.length - 1] = '.' + scope.chanceofrain;
+    bg[bg.length - 1] = '.' + forecast.rain;
     this.elements.chanceRain.style.backgroundColor = 'rgba(' + bg.join(',') + ')';
   },
 
@@ -129,5 +135,14 @@ module.exports = Page.extend({
       max: Math.max.apply(null, max),
       min: Math.min.apply(null, min)
     };
+  },
+
+  switchTimeRange: function() {
+    var curTimeIndex = this.timeRanges.indexOf(this.timeRange);
+    var nextTimeRange = this.timeRanges[curTimeIndex + 1] || this.timeRanges[0];
+    var weather = this.store.get('weather');
+
+    this.timeRange = nextTimeRange;
+    this.displayWeather(weather);
   }
 });

@@ -1,12 +1,10 @@
 const router = require('koa-router')();
-const sockets = {};
+const sockets = require('./controllers/socket');
 
 require('./controllers/system')(router);
 require('./controllers/lights')(router);
 
-Object.assign(sockets, require('./controllers/socket'));
-
-module.exports = function *() {
+module.exports = function *(config) {
   yield router;
-  return sockets;
+  return sockets(config);
 };
