@@ -100,10 +100,13 @@ module.exports = Page.extend({
     this.container.innerHTML = this.template(scope);
     this.bind();
 
+    var rainChance = forecast.rain;
+    rainChance.length === 1 && (rainChance = '0' + forecast.rain);
+
     this.elements.chanceRain.style.backgroundColor = '';
     var bg = window.getComputedStyle(this.elements.chanceRain).backgroundColor;
     bg = bg.match(/\((.+)\)/)[1].split(',').map(function(e) { return e.trim(); });
-    bg[bg.length - 1] = '.' + forecast.rain;
+    bg[bg.length - 1] = '.' + rainChance;
     this.elements.chanceRain.style.backgroundColor = 'rgba(' + bg.join(',') + ')';
   },
 

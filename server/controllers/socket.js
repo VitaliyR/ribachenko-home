@@ -1,34 +1,69 @@
 const log = require('loggy');
 const lights = require('../lib/lights');
 
+let listening;
+
 const getConfiguration = () => {
   return lights.getLights();
 };
 
+const listen = (state, poll) => {
+  if (state !== !!listening) {
+    listening = poll;
+    state && update();
+  }
+};
+
+let lightsState;
+const update = (poll) => {
+  lights.getLights.then(newLightsState => {
+    // compare states
+    !lightsState && (lightsState = newLightsState);
+
+    const changes = [];
+
+    for (let lightId in newLightsState) {
+      const newLight = newLightsState[lightId];
+      const oldLight = lightsState[lightId];
+
+      const newState = newLight.state.on || newLight.action.on;
+      const oldState = oldLight.state.on || oldLight.action.on;
+
+      if (newState !== oldState) {
+        changes.push(lightId);
+      }
+    }
+
+    if (changes.length) {
+      // broadcast changes
+    }
+
+    lightsState = newLightsState;
+
+    setTimeout(update, listening);
+  });
+};
+
+/**
+ * Exports
+ */
 module.exports = function(config) {
   const listeners = {};
-  let listenChanges;
 
   listeners.connection = function(data) {
     log.info('Socket connected');
-    return data.socket.emit('configuration', {
-      0: {
-        name: 'All Lights',
-        state: false
-      },
-      1: {
-        name: 'Test 1',
-        state: false
-      },
-      5: {
-        name: 'test 2',
-        state: true
+
+    getConfiguration().then(config => {
+      data.socket.emit('configuration', config);
+
+      let poll = config.lights.poll;
+      if (!poll) {
+        poll = 1000;
+        log.warn('Lights poll number not provided [config.lights.poll]');
       }
+      
+      listen(true, poll);
     });
-    // getConfiguration().then(config => data.socket.emit('configuration', config));
-    if (!listenChanges) {
-      listenChanges = true;
-    }
   };
 
   listeners.disconnect = function(data) {
