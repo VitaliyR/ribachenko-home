@@ -36,6 +36,7 @@ module.exports = Page.extend({
 
     this.socket = Socket.connect();
     this.socket.on('configuration', function(config) {
+      console.log(config); // TODO remove
       self.config.lights = config;
       self.triggerAll(self.controllers, 'configuration', config);
     });

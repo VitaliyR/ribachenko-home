@@ -1,6 +1,6 @@
 const request = require('request-promise-native');
 
-var config;
+let config;
 
 module.exports = {
   configure: (newConfig) => {
@@ -17,10 +17,22 @@ module.exports = {
       request({ uri: this.buildUrl('lights'), json: true })
     ]).then(config => {
       config[1][0] = config[0];
-      for (let lampId in config[1]) {
-        config[1][lampId].name = lampId === 0 ? 'All Lights' : `Light ${lampId}`;
+      config = config[1];
+
+      for (let lampId in config) {
+        let lamp = config[lampId];
+        let key = lampId === '0' ? 'action' : 'state';
+
+        config[lampId] = {
+          name: lampId === '0' ? 'All Lights' : `Light ${lampId}`,
+          state: lamp[key].on,
+          bri: lamp[key].bri,
+          sat: lamp[key].sat,
+          hue: lamp[key].hue
+        };
       }
-      return config[1];
+
+      return config;
     });
   },
 
@@ -40,7 +52,7 @@ module.exports = {
     return Promise.all(
       lights.map(light => {
         return request({
-          uri: this.buildUrl('lights', light.id),
+          uri: this.buildUrl('lights', light.id, 'state'),
           method: 'PUT',
           json: {
             on: light.state

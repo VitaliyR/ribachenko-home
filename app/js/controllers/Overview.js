@@ -35,7 +35,7 @@ module.exports = Page.extend({
     }
   },
 
-  switchLight: function(lightId) {
-    this.socket.emit('switchLight', lightId);
+  switchLight: function(e) {
+    this.socket.emit('switchLight', e.detail);
   }
 });

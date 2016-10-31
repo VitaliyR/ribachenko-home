@@ -79,25 +79,31 @@ module.exports = function(socket, config) {
       data.socket.emit('configuration', config);
 
       updater.listen(true, broadcastChanges);
-    });
+    }).catch(e => log.error(e))
   };
 
   listeners.disconnect = function(data) {
     log.info('Socket disconnected');
   };
 
-  listeners.switchLight = function(data) {
-    data = Array.isArray(data) ? data : [data];
-    const allLights = data.filter(el => el.id === 0);
+  listeners.switchLight = function(e) {
+    const data = Array.isArray(e.data) ? e.data : [e.data];
+    const allLights = data.filter(el => el.id === '0');
 
     if (allLights.length) {
       lights.switchAllLights(allLights[0].state)
-        .then(() => log.info('Switched all lights to', allLights[0].state))
-        .catch(e => log.error('Tried to switch all lights but can\'t, because', e.message));
+        .catch(e => log.error('Tried to switch all lights but can\'t, because', e.message))
+        .then(() => {
+          log.info('Switched all lights to', allLights[0].state);
+          lights.getLights().then(config => e.socket.emit('configuration', config));
+        });
     } else {
       lights.switchLights(data)
-        .then(() => log.info('Switched lights'))
-        .catch(e => log.error('Tried to switch lights but can\'t, because', e.message));
+        .catch(e => log.error('Tried to switch lights but can\'t, because', e.message))
+        .then(() => {
+          log.info('Switched lights');
+          lights.getLights().then(config => e.socket.emit('configuration', config));
+        });
     }
   };
 

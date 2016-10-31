@@ -25,7 +25,7 @@ module.exports = Page.extend({
     this.allLights.setLights({ lights: lights });
   },
 
-  switchLight: function(lightId) {
-    this.socket.emit('switchLight', lightId);
+  switchLight: function(e) {
+    this.socket.emit('switchLight', e.detail);
   }
 });

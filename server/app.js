@@ -9,7 +9,7 @@ const router = require('./router')(io, config);
 const appRouter = router.next().value;
 const appSockets = router.next().value;
 
-require('./lib/lights').configure(app, config.lights);
+require('./lib/lights').configure(config.lights);
 
 app.use(appRouter.routes());
 app.use(appRouter.allowedMethods());
