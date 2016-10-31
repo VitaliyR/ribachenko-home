@@ -1,68 +1,85 @@
 const log = require('loggy');
 const lights = require('../lib/lights');
 
-let listening;
-
-const getConfiguration = () => {
-  return lights.getLights();
-};
-
-const listen = (state, poll) => {
-  if (state !== !!listening) {
-    listening = poll;
-    state && update();
+class LightsPoll {
+  constructor(opts) {
+    this.config = opts;
   }
-};
 
-let lightsState;
-const update = (poll) => {
-  lights.getLights.then(newLightsState => {
-    // compare states
-    !lightsState && (lightsState = newLightsState);
+  listen(state, cb) {
+    this._delegate = cb;
+    this._lightsState = null;
+    this._state = state;
+    !this._state && state && this._update();
+  }
 
-    const changes = [];
+  _update(poll) {
+    if (!this._state) return;
 
-    for (let lightId in newLightsState) {
-      const newLight = newLightsState[lightId];
-      const oldLight = lightsState[lightId];
+    lights.getLights.then(newLightsState => {
+      // compare states
+      !this._lightsState && (this._lightsState = newLightsState);
 
-      const newState = newLight.state.on || newLight.action.on;
-      const oldState = oldLight.state.on || oldLight.action.on;
+      const changes = [];
 
-      if (newState !== oldState) {
-        changes.push(lightId);
+      for (let lightId in newLightsState) {
+        const newLight = newLightsState[lightId];
+        const oldLight = this._lightsState[lightId];
+
+        const newState = newLight.state.on || newLight.action.on;
+        const oldState = oldLight.state.on || oldLight.action.on;
+
+        if (newState !== oldState) {
+          changes.push(lightId);
+        }
       }
-    }
 
-    if (changes.length) {
-      // broadcast changes
-    }
+      this._lightsState = newLightsState;
 
-    lightsState = newLightsState;
+      if (changes.length) {
+        this._delegate(changes);
+      }
 
-    setTimeout(update, listening);
-  });
+      setTimeout(this._update, this.config.poll);
+    });
+  }
+}
+
+/**
+ * Validates provided config
+ * @param  {Object} config
+ * @return {Object} config
+ */
+const validateConfig = (config) => {
+  if (!config.lights.poll) {
+    config.lights.poll = 1000;
+    log.warn('Lights poll number not provided [config.lights.poll]');
+  }
+  return config;
 };
 
 /**
  * Exports
  */
-module.exports = function(config) {
+module.exports = function(socket, config) {
+  validateConfig(config);
+
   const listeners = {};
+  const updater = new LightsPoll({
+    poll: config.lights.poll
+  });
+
+  const broadcastChanges = (changes) => {
+    log.info(changes);
+  };
 
   listeners.connection = function(data) {
     log.info('Socket connected');
 
-    getConfiguration().then(config => {
+    lights.getLights().then(config => {
       data.socket.emit('configuration', config);
 
-      let poll = config.lights.poll;
-      if (!poll) {
-        poll = 1000;
-        log.warn('Lights poll number not provided [config.lights.poll]');
-      }
-      
-      listen(true, poll);
+      updater.listen(true, broadcastChanges);
     });
   };
 

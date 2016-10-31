@@ -134,7 +134,7 @@ module.exports = Page.extend({
     }
 
     return {
-      rain: Math.max.apply(null, rainChance),
+      rain: Math.floor(rainChance.reduce(function(a, b) { return a + b; }, 0) / rainChance.length),
       max: Math.max.apply(null, max),
       min: Math.min.apply(null, min)
     };

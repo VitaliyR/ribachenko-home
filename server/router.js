@@ -4,7 +4,7 @@ const sockets = require('./controllers/socket');
 require('./controllers/system')(router);
 require('./controllers/lights')(router);
 
-module.exports = function *(config) {
+module.exports = function *(app, config) {
   yield router;
-  return sockets(config);
+  return sockets(app.io, config);
 };
