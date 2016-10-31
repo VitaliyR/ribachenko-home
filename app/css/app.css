@@ -24,6 +24,7 @@ body {
   box-sizing: border-box;
 }
 
+@import "animations";
 @import "elements";
 @import "icons";
 @import "components/pages";

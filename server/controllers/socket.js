@@ -17,7 +17,6 @@ class LightsPoll {
     if (!this._state) return;
 
     lights.getLights.then(newLightsState => {
-      // compare states
       !this._lightsState && (this._lightsState = newLightsState);
 
       const changes = [];
@@ -88,7 +87,18 @@ module.exports = function(socket, config) {
   };
 
   listeners.switchLight = function(data) {
-    log.info('Switching light');
+    data = Array.isArray(data) ? data : [data];
+    const allLights = data.filter(el => el.id === 0);
+
+    if (allLights.length) {
+      lights.switchAllLights(allLights[0].state)
+        .then(() => log.info('Switched all lights to', allLights[0].state))
+        .catch(e => log.error('Tried to switch all lights but can\'t, because', e.message));
+    } else {
+      lights.switchLights(data)
+        .then(() => log.info('Switched lights'))
+        .catch(e => log.error('Tried to switch lights but can\'t, because', e.message));
+    }
   };
 
   return listeners;

@@ -31,10 +31,15 @@ module.exports = Page.extend({
 
   toggleLight: function(e) {
     var lightButton = e.currentTarget;
-    // var lightId = lightButton.getAttribute('data-id');
+    var lightId = lightButton.getAttribute('data-id');
+    var light = this.config.lights[lightId];
 
     this.processing = true;
-    lightButton.classList.add('processing');
-    // this.trigger('switch', lightId);
+    lightButton.querySelector('.icon').className = 'icon icon-spinner';
+
+    this.trigger('switch', [{
+      id: lightId,
+      state: !light.state
+    }]);
   }
 });

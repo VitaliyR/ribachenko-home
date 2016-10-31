@@ -20,4 +20,9 @@
       }
     }
   }
+
+  &.icon-spinner {
+    will-change: rotate;
+    animation: spin 1.5s linear infinite;
+  }
 }

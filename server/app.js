@@ -5,7 +5,7 @@ const io = new IO();
 const log = require('loggy');
 
 const config = require('../config');
-const router = require('./router')(config);
+const router = require('./router')(io, config);
 const appRouter = router.next().value;
 const appSockets = router.next().value;
 

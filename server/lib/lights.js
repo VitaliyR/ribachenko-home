@@ -24,7 +24,7 @@ module.exports = {
     });
   },
 
-  switchLights: function(state) {
+  switchAllLights: function(state) {
     state = !!state;
 
     return request({
@@ -34,5 +34,19 @@ module.exports = {
         on: state
       }
     });
+  },
+
+  switchLights: function(lights) {
+    return Promise.all(
+      lights.map(light => {
+        return request({
+          uri: this.buildUrl('lights', light.id),
+          method: 'PUT',
+          json: {
+            on: light.state
+          }
+        });
+      })
+    );
   }
 };
