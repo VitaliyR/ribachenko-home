@@ -5,7 +5,10 @@ const io = new IO();
 const log = require('loggy');
 
 const config = require('../config');
-const router = require('./router')(io, config);
+
+io.attach(app);
+
+const router = require('./router')(app, config);
 const appRouter = router.next().value;
 const appSockets = router.next().value;
 
@@ -14,8 +17,6 @@ require('./lib/lights').configure(config.lights);
 app.use(appRouter.routes());
 app.use(appRouter.allowedMethods());
 app.use(serve('./public'));
-
-io.attach(app);
 
 for (let event in appSockets) {
   let handlers = appSockets[event];

@@ -33,16 +33,16 @@ module.exports = {
       config[1][0] = config[0];
       config = config[1];
 
-      for (let lampId in config) {
-        let lamp = config[lampId];
-        let key = lampId === '0' ? 'action' : 'state';
+      for (let lightId in config) {
+        const light = config[lightId];
+        const key = lightId === '0' ? 'action' : 'state';
 
-        config[lampId] = {
-          name: lampId === '0' ? 'All Lights' : `Light ${lampId}`,
-          state: lamp[key].on,
-          bri: lamp[key].bri,
-          sat: lamp[key].sat,
-          hue: lamp[key].hue
+        config[lightId] = {
+          name: lightId === '0' ? 'All Lights' : `Light ${lightId}`,
+          state: light[key].on,
+          bri: light[key].bri,
+          sat: light[key].sat,
+          hue: light[key].hue
         };
       }
 
@@ -74,5 +74,45 @@ module.exports = {
         });
       })
     );
+  },
+
+  monitor: function(state, cb) {
+    if (this._updating === state) return;
+
+    log.info(state ? 'Start to monitor for changes' : 'Stop to monitor changes');
+    this._updateCb = cb;
+    this._updating = state;
+    this._update();
+  },
+
+  _update() {
+    if (!this._updating) return;
+
+    this.getLights().then(newLightsState => {
+      !this._lightsState && (this._lightsState = newLightsState);
+
+      const changes = [];
+
+      for (let lightId in newLightsState) {
+        const newLight = newLightsState[lightId];
+        const oldLight = this._lightsState[lightId];
+
+        const newState = newLight.state;
+        const oldState = oldLight.state;
+
+        if (newState !== oldState) {
+          changes.push(lightId);
+        }
+      }
+
+      this._lightsState = newLightsState;
+
+      if (changes.length) {
+        log.info('Found changes in lightsState');
+        this._updateCb(changes, this._lightsState);
+      }
+
+      setTimeout(this._update.bind(this), config.poll);
+    }).catch(e => log.error(e));
   }
 };

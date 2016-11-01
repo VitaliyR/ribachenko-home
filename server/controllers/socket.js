@@ -1,61 +1,16 @@
 const log = require('loggy');
 const lights = require('../lib/lights');
 
-class LightsPoll {
-  constructor(opts) {
-    this.config = opts;
-  }
-
-  listen(state, cb) {
-    this._delegate = cb;
-    this._lightsState = null;
-    this._state = state;
-    !this._state && state && this._update();
-  }
-
-  _update(poll) {
-    if (!this._state) return;
-
-    lights.getLights.then(newLightsState => {
-      !this._lightsState && (this._lightsState = newLightsState);
-
-      const changes = [];
-
-      for (let lightId in newLightsState) {
-        const newLight = newLightsState[lightId];
-        const oldLight = this._lightsState[lightId];
-
-        const newState = newLight.state.on || newLight.action.on;
-        const oldState = oldLight.state.on || oldLight.action.on;
-
-        if (newState !== oldState) {
-          changes.push(lightId);
-        }
-      }
-
-      this._lightsState = newLightsState;
-
-      if (changes.length) {
-        this._delegate(changes);
-      }
-
-      setTimeout(this._update, this.config.poll);
-    });
-  }
-}
-
 /**
  * Exports
  */
 module.exports = function(socket, config) {
   const flags = {};
   const listeners = {};
-  const updater = new LightsPoll({
-    poll: config.lights.poll
-  });
 
-  const broadcastChanges = (changes) => {
-    log.info(changes);
+  const broadcastChanges = (changes, lights) => {
+    log.info('Broadcasting changes in lightsState to sockets');
+    socket.broadcast('lights:update', lights);
   };
 
   listeners.connection = function(data) {
@@ -64,7 +19,7 @@ module.exports = function(socket, config) {
     lights.getLights().then(config => {
       data.socket.emit('configuration', config);
 
-      updater.listen(true, broadcastChanges);
+      lights.monitor(true, broadcastChanges);
     }).catch(e => log.error(e));
   };
 
