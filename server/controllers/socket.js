@@ -45,24 +45,9 @@ class LightsPoll {
 }
 
 /**
- * Validates provided config
- * @param  {Object} config
- * @return {Object} config
- */
-const validateConfig = (config) => {
-  if (!config.lights.poll) {
-    config.lights.poll = 1000;
-    log.warn('Lights poll number not provided [config.lights.poll]');
-  }
-  return config;
-};
-
-/**
  * Exports
  */
 module.exports = function(socket, config) {
-  validateConfig(config);
-
   const listeners = {};
   const updater = new LightsPoll({
     poll: config.lights.poll
@@ -79,7 +64,7 @@ module.exports = function(socket, config) {
       data.socket.emit('configuration', config);
 
       updater.listen(true, broadcastChanges);
-    }).catch(e => log.error(e))
+    }).catch(e => log.error(e));
   };
 
   listeners.disconnect = function(data) {
