@@ -32,6 +32,15 @@ const lights = {
       hue: 150,
       sat: 150
     }
+  },
+  3: {
+    name: 'Some hue light 3',
+    state: {
+      on: false,
+      bri: 125,
+      hue: 125,
+      sat: 125
+    }
   }
 };
 

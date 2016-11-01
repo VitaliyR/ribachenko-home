@@ -1,6 +1,7 @@
 # Home System
 
 ## Config
+* **desktop** *(Boolean)*
 * **weather**
   * **api_key** *(String)*
   * **freq** *(Number)*

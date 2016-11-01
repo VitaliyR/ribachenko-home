@@ -7,6 +7,8 @@ module.exports = Page.extend({
   animClass: 'is-animating',
   selectedClass: 'selected',
 
+  threshold: 100,
+
   constructor: function(container, pagination) {
     this.constructor.__super__.constructor.apply(this, [container, null]);
 
@@ -22,12 +24,18 @@ module.exports = Page.extend({
     this.pagination.children[0].classList.add(this.selectedClass);
 
     var sliderManager = new Hammer.Manager(container);
-    sliderManager.add(new Hammer.Pan({ threshold: 100, pointers: 0 }));
+    sliderManager.add(new Hammer.Pan({
+      threshold: this.threshold,
+      pointers: 0,
+      direction: Hammer.DIRECTION_HORIZONTAL
+    }));
     sliderManager.on('pan', this.handlePan.bind(this));
   },
 
   handlePan: function(e) {
-    var percentage = 100 / this.slidesCount * e.deltaX / window.innerWidth;
+    var thresholdX = e.direction === Hammer.DIRECTION_LEFT ? this.threshold : -this.threshold;
+    var deltaX = e.deltaX + thresholdX;
+    var percentage = 100 / this.slidesCount * deltaX / window.innerWidth;
     var percentageCalculated = percentage - 100 / this.slidesCount * this.activeSlide;
 
     this.container.style.transform = 'translateX( ' + percentageCalculated + '% )';

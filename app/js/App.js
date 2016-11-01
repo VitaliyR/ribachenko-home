@@ -23,7 +23,9 @@ module.exports = Page.extend({
 
   events: {
     'click buttons': 'hideButtons',
-    'click button': 'switchSlide'
+    'click button': 'switchSlide',
+    'transitionend buttons': 'handleTransitionEnd',
+    'click': 'handleClick'
   },
 
   constructor: function() {
@@ -34,9 +36,12 @@ module.exports = Page.extend({
     this.store = Store.register('app');
     this.config = config;
 
+    if (config.desktop) {
+      this.container.style.cursor = 'default';
+    }
+
     this.socket = Socket.connect();
     this.socket.on('configuration', function(config) {
-      console.log(config); // TODO remove
       self.config.lights = config;
       self.triggerAll(self.controllers, 'configuration', config);
     });
@@ -72,13 +77,24 @@ module.exports = Page.extend({
   },
 
   showButtons: function() {
-    if (!this.modal) {
+    if (!this.modal && !this._buttonsVisible) {
+      this._buttonsAnimFinished = false;
+      this._buttonsVisible = true;
       this.elements.buttons.style.bottom = '0';
     }
   },
 
   hideButtons: function() {
     this.elements.buttons.style.bottom = this._buttonsHeight;
+    this._buttonsVisible = false;
+  },
+
+  handleClick: function() {
+    this._buttonsAnimFinished && this.hideButtons();
+  },
+
+  handleTransitionEnd: function() {
+    this._buttonsAnimFinished = true;
   },
 
   switchSlide: function(e) {

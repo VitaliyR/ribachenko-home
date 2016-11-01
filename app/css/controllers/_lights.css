@@ -1,0 +1,5 @@
+.lights-page {
+  .light-button:first-child {
+    display: flex;
+  }
+}
