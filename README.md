@@ -4,6 +4,7 @@
 * **desktop** *(Boolean)*
 * **weather**
   * **api_key** *(String)*
+  * **api_url** *(String)*
   * **freq** *(Number)*
 * **server**
   * **port** *(Number)*
