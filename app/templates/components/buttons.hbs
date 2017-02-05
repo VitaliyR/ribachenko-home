@@ -1,0 +1,6 @@
+{{#each buttons}}
+  <div class="button button-touch {{className}}" data-id="{{@key}}">
+    <div class="icon {{#if state}}{{activatedIconClass}}{{else}}{{iconClass}}{{/if}}"></div>
+  <div class="button-name">{{#if state}}{{activatedName}}{{else}}{{name}}{{/if}}</div>
+  </div>
+{{/each}}

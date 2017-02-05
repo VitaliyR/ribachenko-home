@@ -14,3 +14,10 @@
   * **poll** *(Number)*
   * **dumb** *(Boolean) [optional]*
   * **dumbTimeout** *(Number) [optional]*
+* **outlets**
+  * **poll** *(Number)*
+  * **outlets** *(Array of Strings)*
+  * **autodiscover** *(Boolean) [optional]*
+  * **dumbTimeout** *(Number) [optional]*
+* **outlets**
+  * **db** *(String)*

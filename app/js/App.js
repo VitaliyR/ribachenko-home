@@ -42,12 +42,13 @@ module.exports = Page.extend({
 
     this.socket = Socket.connect();
     this.socket.on('configuration', function(config) {
-      self.config.lights = config;
       self.triggerAll(self.controllers, 'configuration', config);
     });
     this.socket.on('lights:update', function(lights) {
-      Object.assign(self.config.lights, lights);
-      self.triggerAll(self.controllers, 'lights:update', self.config.lights);
+      self.triggerAll(self.controllers, 'lights:update', { lights: lights });
+    });
+    this.socket.on('outlets:update', function(outlets) {
+      self.triggerAll(self.controllers, 'outlets:update', { outlets: outlets });
     });
 
     this.controllers = [];

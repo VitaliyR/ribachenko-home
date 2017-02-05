@@ -1,5 +1,5 @@
 const request = require('request-promise-native');
-const log = require('loggy');
+const log = require('./log')('Lights');
 const dumb = require('./dumb');
 
 let config;
@@ -15,6 +15,8 @@ module.exports = {
 
     config.dumb && log.info('Configured to use dumb data');
     config.dumb && config.dumbTimeout && log.info('Using timeout for responses', config.dumbTimeout);
+
+    return Promise.resolve();
   },
 
   buildUrl: function(...methods) {
@@ -53,6 +55,8 @@ module.exports = {
   switchAllLights: function(state) {
     state = !!state;
 
+      this._skipOnceUpdate = true;
+
     return this.request({
       uri: this.buildUrl('groups', 0, 'action'),
       method: 'PUT',
@@ -63,6 +67,8 @@ module.exports = {
   },
 
   switchLights: function(lights) {
+    this._skipOnceUpdate = true;
+
     return Promise.all(
       lights.map(light => {
         return this.request({
@@ -87,6 +93,10 @@ module.exports = {
 
   _update() {
     if (!this._updating) return;
+    if (this._skipOnceUpdate) {
+      this._skipOnceUpdate = false;
+      return setTimeout(this._update.bind(this), config.poll);
+    }
 
     this.getLights().then(newLightsState => {
       !this._lightsState && (this._lightsState = newLightsState);

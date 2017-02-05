@@ -5,7 +5,7 @@
   background-size: 40px;
   background-position: 50%;
 
-  @each $icon in (overview, shutdown, restart, cancel, update, rain, light, light-activated, spinner, arrow) {
+  @each $icon in (overview, shutdown, restart, cancel, update, rain, outlet, outlet-activated, home, home-activated, light, light-activated, spinner, arrow) {
     &.icon-$(icon) {
       background-image: svg-load('../res/icons/$(icon).svg');
     }
