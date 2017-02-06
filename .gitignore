@@ -3,6 +3,6 @@
 .DS_Store
 .sass-cache
 node_modules
-./config.js
+/config.js
 public
 data
