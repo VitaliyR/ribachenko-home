@@ -1,5 +1,6 @@
 const Hs100Api = require('hs100-api');
 const log = require('./log')('Outlets');
+const dumb = require('./dumb');
 
 let config, client, plugs, outlets;
 
@@ -19,12 +20,12 @@ module.exports = {
     plugs = {};
     outlets = {};
     config.outlets.forEach(ip => {
-      const plug = client.getPlug({ host: ip });
+      const plug = config.dumb ? dumb('outlets', { host: ip }) : client.getPlug({ host: ip });
       plugs[ip] = plug;
       outlets[ip] = {
         ip: ip
       };
-      plug.getInfo().then(info => outlets[ip].info = info);
+      plug.getInfo().then(info => (outlets[ip].info = info));
     });
 
     return Promise.resolve();
@@ -52,7 +53,7 @@ module.exports = {
 
     return this.switchOutlets(
       Object.keys(outlets).map(outletId => {
-        return { id: outletId, state: state }
+        return { id: outletId, state: state };
       })
     );
   },
@@ -85,7 +86,7 @@ module.exports = {
 
     if (!this._outletsState) {
       this._outletsState = {};
-      Object.keys(outlets).forEach(outletId => this._outletsState[outletId] = outlets[outletId].state);
+      Object.keys(outlets).forEach(outletId => (this._outletsState[outletId] = outlets[outletId].state));
     }
 
     this.getOutlets().then(newOutletsState => {

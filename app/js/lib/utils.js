@@ -55,7 +55,9 @@ module.exports = {
         if (request.status >= 200 && request.status < 400) {
           try {
             json = JSON.parse(request.responseText);
-          } catch (e) {}
+          } catch (e) {
+            reject(request);
+          }
 
           resolve(json || request.responseText, request);
         } else {

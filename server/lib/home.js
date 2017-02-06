@@ -1,5 +1,7 @@
 const log = require('./log')('Home');
 const fs = require('fs-promise');
+const mkdir = require('mkdirp-promise');
+const path = require('path');
 
 const outlets = require('./outlets');
 const lights = require('./lights');
@@ -25,7 +27,8 @@ module.exports = {
   },
 
   persist: function() {
-    return fs.writeFile(config.db, JSON.stringify(this.data))
+    return mkdir(path.dirname(config.db))
+      .then(() => fs.writeFile(config.db, JSON.stringify(this.data)))
       .then(() => log.info('Store persisted'))
       .catch((e) => log.error(`Error while tried to persist the store: ${e.message}`));
   },
@@ -34,17 +37,17 @@ module.exports = {
     return Promise.resolve(this.data);
   },
 
-  switchState: function(state) {
-    this.data.atHome = state;
+  switchState: function(atHome) {
+    this.data.atHome = atHome;
 
-    let runner = outlets.switchAllOutlets(!state);
+    let runner = outlets.switchAllOutlets(!atHome);
 
     let turnOffLights;
 
-    if (state) {
+    if (atHome) {
       const hours = (new Date()).getHours();
       const isDawn = hours >= 18 && hours <= 7;
-      turnOffLights = !isDawn;
+      turnOffLights = isDawn;
     } else {
       turnOffLights = true;
     }
@@ -56,7 +59,7 @@ module.exports = {
     this.persist();
 
     runner.then(() => {
-      log.info(`${state ? 'At home' : 'Out of home'}. Outlets ${state ? 'turned off' : 'turned on'}. ${turnOffLights ? 'Lights turned off.' : ''}`);
+      log.info(`${atHome ? 'At home' : 'Out of home'}. Outlets ${atHome ? 'turned off' : 'turned on'}. ${turnOffLights ? 'Lights turned off.' : ''}`);
       return Promise.resolve();
     });
 

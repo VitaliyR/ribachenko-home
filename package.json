@@ -22,6 +22,7 @@
     "koa-static": "^2.0.0",
     "lodash": "^4.16.4",
     "loggy": "^0.3.5",
+    "mkdirp-promise": "^5.0.1",
     "moment": "^2.15.1",
     "postcss-each": "^0.9.3",
     "postcss-simple-vars": "^3.0.0",

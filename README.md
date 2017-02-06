@@ -19,5 +19,5 @@
   * **outlets** *(Array of Strings)*
   * **autodiscover** *(Boolean) [optional]*
   * **dumbTimeout** *(Number) [optional]*
-* **outlets**
+* **home**
   * **db** *(String)*

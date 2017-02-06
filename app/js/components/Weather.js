@@ -52,6 +52,10 @@ module.exports = Page.extend({
       self.store.set('last_executed', Date.now());
       self.store.set('weather', data);
       return data;
+    }).catch(function(err) {
+      self.store.set('weather', null);
+      self.store.set('last_executed', null);
+      throw err;
     });
   },
 

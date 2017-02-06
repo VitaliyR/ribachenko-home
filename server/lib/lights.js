@@ -24,7 +24,7 @@ module.exports = {
   },
 
   request: function(opts) {
-    return config.dumb ? dumb(opts, config.dumbTimeout) : request(opts);
+    return config.dumb ? dumb('lights', opts, config.dumbTimeout) : request(opts);
   },
 
   getLights: function() {
@@ -55,7 +55,7 @@ module.exports = {
   switchAllLights: function(state) {
     state = !!state;
 
-      this._skipOnceUpdate = true;
+    this._skipOnceUpdate = true;
 
     return this.request({
       uri: this.buildUrl('groups', 0, 'action'),
