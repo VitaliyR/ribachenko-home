@@ -42,24 +42,22 @@ module.exports = {
 
     let runner = outlets.switchAllOutlets(!atHome);
 
-    let turnOffLights;
+    let turnOnLights;
 
     if (atHome) {
       const hours = (new Date()).getHours();
       const isDawn = hours >= 18 && hours <= 7;
-      turnOffLights = isDawn;
+      turnOnLights = isDawn;
     } else {
-      turnOffLights = true;
+      turnOnLights = false;
     }
 
-    if (turnOffLights) {
-      runner.then(() => lights.switchAllLights(false));
-    }
+    runner.then(() => lights.switchAllLights(turnOnLights));
 
     this.persist();
 
     runner.then(() => {
-      log.info(`${atHome ? 'At home' : 'Out of home'}. Outlets ${atHome ? 'turned off' : 'turned on'}. ${turnOffLights ? 'Lights turned off.' : ''}`);
+      log.info(`${atHome ? 'At home' : 'Out of home'}. Outlets ${atHome ? 'turned off' : 'turned on'}. ${turnOnLights ? 'Lights turned off.' : ''}`);
       return Promise.resolve();
     });
 
