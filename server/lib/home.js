@@ -46,7 +46,7 @@ module.exports = {
 
     if (atHome) {
       const hours = (new Date()).getHours();
-      const isDawn = hours >= 18 && hours <= 7;
+      const isDawn = hours >= 18 || hours <= 7;
       turnOnLights = isDawn;
     } else {
       turnOnLights = false;
