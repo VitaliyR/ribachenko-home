@@ -9,11 +9,9 @@ module.exports = Page.extend({
   timeRange: 12,
 
   selectors: {
-    chanceRain: '.chance-rain'
   },
 
   events: {
-    'click chanceRain': 'switchTimeRange'
   },
 
   constructor: function(container, config, store) {
@@ -76,8 +74,8 @@ module.exports = Page.extend({
   },
 
   _renderWeather: function(weather) {
-    var current = weather.forecast[0].hour[moment().hours()];
-    var forecast = this.getForecastData(weather);
+    var current = weather.current;
+    var today = weather.forecast[0].day;
     var scope = {
       current: {
         temp: Math.round(current.temp_c),
@@ -86,22 +84,11 @@ module.exports = Page.extend({
         wind_direction: current.wind_dir.toLowerCase(),
         updated_at: this.store.get('last_executed')
       },
-      forecastRange: this.timeRange,
-      chanceofrain: forecast.rain,
-      mintemp: forecast.min,
-      maxtemp: forecast.max
+      mintemp: Math.round(today.mintemp_c),
+      maxtemp: Math.round(today.maxtemp_c)
     };
     this.container.innerHTML = this.template(scope);
     this.bind();
-
-    var rainChance = forecast.rain;
-    rainChance.length === 1 && (rainChance = '0' + forecast.rain);
-
-    this.elements.chanceRain.style.backgroundColor = '';
-    var bg = window.getComputedStyle(this.elements.chanceRain).backgroundColor;
-    bg = bg.match(/\((.+)\)/)[1].split(',').map(function(e) { return e.trim(); });
-    bg[bg.length - 1] = rainChance === 100 ? '100' : '.' + rainChance;
-    this.elements.chanceRain.style.backgroundColor = 'rgba(' + bg.join(',') + ')';
   },
 
   _update: function() {
@@ -109,42 +96,5 @@ module.exports = Page.extend({
       this.displayWeather();
       setTimeout(this._update.bind(this), this.config.freq + 1000);
     }
-  },
-
-  getForecastData: function(weather) {
-    var rainChance = [];
-    var temps = [];
-    var now = moment();
-    var hour = now.hours();
-    var hours = 0;
-    var day = 0;
-    var curr = weather.forecast[day];
-
-    while (hours < this.timeRange) {
-      var hr = curr.hour[hour++];
-      if (!hr) {
-        hour = 0;
-        curr = weather.forecast[++day];
-        hr = curr.hour[hour];
-      }
-      ++hours;
-      rainChance.push(hr.will_it_rain || hr.will_it_snow);
-      temps.push(Math.round(hr.temp_c));
-    }
-
-    return {
-      rain: Math.round((rainChance.reduce(function(s, e) { return s + e; }, 0) / rainChance.length) * 100),
-      max: Math.max.apply(null, temps),
-      min: Math.min.apply(null, temps)
-    };
-  },
-
-  switchTimeRange: function() {
-    var curTimeIndex = this.timeRanges.indexOf(this.timeRange);
-    var nextTimeRange = this.timeRanges[curTimeIndex + 1] || this.timeRanges[0];
-    var weather = this.store.get('weather');
-
-    this.timeRange = nextTimeRange;
-    this.displayWeather(weather);
   }
 });
