@@ -9,8 +9,7 @@
   },
   "scripts": {
     "start": "brunch b && node index",
-    "build": "brunch build --production",
-    "postinstall": "npm run build"
+    "build": "brunch build --production"
   },
   "dependencies": {
     "csswring": "^5.1.0",
